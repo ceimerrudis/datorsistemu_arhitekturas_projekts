@@ -18,7 +18,7 @@ RtcDS1302<ThreeWire> Rtc(myWire);
 void setup() {
 	pinMode(LED_BUILTIN, OUTPUT);
 	Rtc.Begin();
-	SD.begin(10)
+	SD.begin(10);
 	Wire.beginTransmission(hdc1080_adress);
 	Wire.write(0x02);
 	Wire.write(0b000100000000000); // sets up configuration 
@@ -36,7 +36,7 @@ void loop() {
 	Wire.endTransmission(false);
 	Wire.requestFrom(hdc1080_adress, 2, true);
 
-	sleep(10); // Wait a bit so that the sensor has time to make the mesurement
+	delay(10); // Wait a bit so that the sensor has time to make the mesurement
 
 	double temperature;
 	temperature = (Wire.read() << 8 | Wire.read());  //get the raw data from registers
@@ -44,7 +44,7 @@ void loop() {
 	// acces file on sd card and add a new line of data
 	myFile = SD.open("data", FILE_WRITE); // automaticaly creates the file if its not available
 	if (myFile) {
-		string data_s = time.date() + "_" + time.time() + "_" + temperature;
+		String data_s = time.date() + "_" + time.time() + "_" + temperature;
 		for (int i = 0; i < data_s.length(); i++)
 		{
 			data_s[i] = (~data_s[i]); // encryption
